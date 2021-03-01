@@ -232,7 +232,7 @@ static constexpr bool is_fixed_size(const tag_t tag) cxx11_noexcept {
   return (tag & 0xE000) != 0;
 }
 
-static constexpr bool is_inplaced(const genus type) cxx11_noexcept {
+static cxx11_constexpr bool is_inplaced(const genus type) cxx11_noexcept {
   return utils::test_bit(
       utils::bitset_mask<i16, u16, i8, u8, boolean, enumeration>::value, type);
 }
@@ -246,7 +246,7 @@ static constexpr genus tag2genus(const tag_t tag) cxx11_noexcept {
   return genus(loose_genus_and_id_t(tag) >> tag_bits::genus_shift);
 }
 
-static constexpr bool is_inplaced(const tag_t tag) cxx11_noexcept {
+static cxx11_constexpr bool is_inplaced(const tag_t tag) cxx11_noexcept {
   return is_inplaced(tag2genus(tag));
 }
 

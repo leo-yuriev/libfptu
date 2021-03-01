@@ -51,10 +51,10 @@ enum class physique_kind { inplaced, fixed, stretchy };
 template <typename TYPE, TYPE DENIL = 0> struct inplaced {
   using value_type = TYPE;
   using return_type = TYPE;
-  static cxx11_constexpr_var TYPE optional_denil = DENIL;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::inplaced;
-  static cxx11_constexpr_var unsigned preplaced_bytes = sizeof(value_type);
-  static cxx11_constexpr_var unsigned loose_units = 0;
+  static constexpr TYPE optional_denil = DENIL;
+  static constexpr physique_kind physique = physique_kind::inplaced;
+  static constexpr unsigned preplaced_bytes = sizeof(value_type);
+  static constexpr unsigned loose_units = 0;
 
   static cxx11_constexpr bool
   is_denil(const details::field_preplaced *preplaced) cxx11_noexcept {
@@ -105,9 +105,9 @@ template <typename TYPE, TYPE DENIL = 0> struct inplaced {
 template <typename TYPE, int32_t DENIL = 0> struct unit_1 {
   using value_type = TYPE;
   using return_type = TYPE;
-  static cxx11_constexpr_var unsigned preplaced_bytes = 4;
-  static cxx11_constexpr_var unsigned loose_units = 1;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::fixed;
+  static constexpr unsigned preplaced_bytes = 4;
+  static constexpr unsigned loose_units = 1;
+  static constexpr physique_kind physique = physique_kind::fixed;
 
   static cxx11_constexpr bool
   is_denil(const details::field_preplaced *preplaced) cxx11_noexcept {
@@ -156,9 +156,9 @@ template <typename TYPE, int32_t DENIL = 0> struct unit_1 {
 template <typename TYPE, int64_t DENIL = 0> struct unit_2 {
   using value_type = TYPE;
   using return_type = TYPE;
-  static cxx11_constexpr_var unsigned preplaced_bytes = 8;
-  static cxx11_constexpr_var unsigned loose_units = 2;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::fixed;
+  static constexpr unsigned preplaced_bytes = 8;
+  static constexpr unsigned loose_units = 2;
+  static constexpr physique_kind physique = physique_kind::fixed;
 
   static cxx11_constexpr bool
   is_denil(const details::field_preplaced *preplaced) cxx11_noexcept {
@@ -207,9 +207,9 @@ template <typename TYPE, int64_t DENIL = 0> struct unit_2 {
 template <unsigned N, typename TYPE = uint32_t[N]> struct unit_n {
   using value_type = TYPE;
   using return_type = const TYPE &;
-  static cxx11_constexpr_var unsigned preplaced_bytes = 4 * N;
-  static cxx11_constexpr_var unsigned loose_units = N;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::fixed;
+  static constexpr unsigned preplaced_bytes = 4 * N;
+  static constexpr unsigned loose_units = N;
+  static constexpr physique_kind physique = physique_kind::fixed;
 
   static cxx11_constexpr bool
   is_denil(const details::field_preplaced *preplaced) cxx11_noexcept {
@@ -286,32 +286,32 @@ template <unsigned N, typename TYPE = uint32_t[N]> struct unit_n {
 // physique inplace, 8/16 bits -------------------------------------------------
 
 template <> struct genus_traits<i8> : public inplaced<int8_t, -128> {
-  static cxx11_constexpr_var value_type max = 127;
-  static cxx11_constexpr_var value_type min = -max;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = 127;
+  static constexpr value_type min = -max;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<i8>::value;
 };
 
 template <> struct genus_traits<u8> : public inplaced<uint8_t, 0> {
-  static cxx11_constexpr_var value_type max = 255;
-  static cxx11_constexpr_var value_type min = 0;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = 255;
+  static constexpr value_type min = 0;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<i8>::value;
 };
 
 template <> struct genus_traits<i16> : public inplaced<int16_t, -32768> {
-  static cxx11_constexpr_var value_type max = 32767;
-  static cxx11_constexpr_var value_type min = -max;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = 32767;
+  static constexpr value_type min = -max;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<i16>::value |
       genus_traits<i8>::trivially_convertible_from |
       genus_traits<u8>::trivially_convertible_from;
 };
 
 template <> struct genus_traits<u16> : public inplaced<uint16_t, 0> {
-  static cxx11_constexpr_var value_type max = 65535;
-  static cxx11_constexpr_var value_type min = 0;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = 65535;
+  static constexpr value_type min = 0;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<u16>::value |
       genus_traits<u8>::trivially_convertible_from;
 };
@@ -319,48 +319,43 @@ template <> struct genus_traits<u16> : public inplaced<uint16_t, 0> {
 // physique unit×1, 32 bits ----------------------------------------------------
 
 template <> struct genus_traits<i32> : public unit_1<int32_t, INT32_MIN> {
-  static cxx11_constexpr_var value_type max =
-      std::numeric_limits<value_type>::max();
-  static cxx11_constexpr_var value_type min = -max;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = std::numeric_limits<value_type>::max();
+  static constexpr value_type min = -max;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<i32>::value |
       genus_traits<i16>::trivially_convertible_from |
       genus_traits<u16>::trivially_convertible_from;
 };
 
 template <> struct genus_traits<u32> : public unit_1<uint32_t, 0> {
-  static cxx11_constexpr_var value_type max =
-      std::numeric_limits<value_type>::max();
-  static cxx11_constexpr_var value_type min = 0;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = std::numeric_limits<value_type>::max();
+  static constexpr value_type min = 0;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<u32>::value |
       genus_traits<u16>::trivially_convertible_from;
 };
 
 template <>
 struct genus_traits<f32> : public unit_1<float, -1 /* quied negative nan */> {
-  static cxx11_constexpr_var value_type max =
-      std::numeric_limits<value_type>::max();
-  static cxx11_constexpr_var value_type min =
-      std::numeric_limits<value_type>::lowest();
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = std::numeric_limits<value_type>::max();
+  static constexpr value_type min = std::numeric_limits<value_type>::lowest();
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask</*f16,*/ f32>::value |
       genus_traits<i16>::trivially_convertible_from |
       genus_traits<u16>::trivially_convertible_from;
 };
 
 template <> struct genus_traits<t32> : public unit_1<unsigned, 0> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<t32, t64>::value;
 };
 
 // physique unit×2, 64 bits ----------------------------------------------------
 
 template <> struct genus_traits<i64> : public unit_2<int64_t, INT64_MIN> {
-  static cxx11_constexpr_var value_type max =
-      std::numeric_limits<value_type>::max();
-  static cxx11_constexpr_var value_type min = -max;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = std::numeric_limits<value_type>::max();
+  static constexpr value_type min = -max;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<i64>::value |
       genus_traits<i32>::trivially_convertible_from |
       genus_traits<u32>::trivially_convertible_from;
@@ -370,10 +365,9 @@ template <> struct genus_traits<i64> : public unit_2<int64_t, INT64_MIN> {
 };
 
 template <> struct genus_traits<u64> : public unit_2<uint64_t, 0> {
-  static cxx11_constexpr_var value_type max =
-      std::numeric_limits<value_type>::max();
-  static cxx11_constexpr_var value_type min = 0;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = std::numeric_limits<value_type>::max();
+  static constexpr value_type min = 0;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<u64>::value |
       genus_traits<u32>::trivially_convertible_from;
   static cxx14_constexpr bool is_empty(const return_type value) cxx11_noexcept {
@@ -383,11 +377,9 @@ template <> struct genus_traits<u64> : public unit_2<uint64_t, 0> {
 
 template <>
 struct genus_traits<f64> : public unit_2<double, -1 /* quied negative nan */> {
-  static cxx11_constexpr_var value_type max =
-      std::numeric_limits<value_type>::max();
-  static cxx11_constexpr_var value_type min =
-      std::numeric_limits<value_type>::lowest();
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr value_type max = std::numeric_limits<value_type>::max();
+  static constexpr value_type min = std::numeric_limits<value_type>::lowest();
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<i32, u32, f64>::value |
       genus_traits<f32>::trivially_convertible_from;
   static cxx14_constexpr bool is_empty(const return_type value) cxx11_noexcept {
@@ -398,9 +390,9 @@ struct genus_traits<f64> : public unit_2<double, -1 /* quied negative nan */> {
 template <>
 struct genus_traits<d64>
     : public unit_2<decimal64, -1 /* quied negative nan */> {
-  //  static cxx11_constexpr_var value_type min = ;
-  //  static cxx11_constexpr_var value_type max = ;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  //  static constexpr value_type min = ;
+  //  static constexpr value_type max = ;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<d64>::value;
   static bool is_empty(const return_type &value) cxx11_noexcept {
     return value == return_type(0);
@@ -408,7 +400,7 @@ struct genus_traits<d64>
 };
 
 template <> struct genus_traits<t64> : public unit_2<datetime_t, 0> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<t32, t64>::value;
   static cxx11_constexpr return_type empty() cxx11_noexcept {
     return datetime_t::from_fixedpoint_32dot32(0);
@@ -421,47 +413,47 @@ template <> struct genus_traits<t64> : public unit_2<datetime_t, 0> {
 // physique unit×N, 96/128/160/192/224/256/384/512 bits ------------------------
 
 template <> struct genus_traits<bin96> : public unit_n<3, binary96_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin96>::value;
 };
 
 template <> struct genus_traits<bin128> : public unit_n<4, binary128_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin128>::value;
 };
 
 template <> struct genus_traits<bin160> : public unit_n<5, binary160_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin160>::value;
 };
 
 template <> struct genus_traits<bin192> : public unit_n<6, binary192_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin192>::value;
 };
 
 template <> struct genus_traits<bin224> : public unit_n<7, binary224_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin224>::value;
 };
 
 template <> struct genus_traits<bin256> : public unit_n<8, binary256_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin256>::value;
 };
 
 template <> struct genus_traits<bin320> : public unit_n<10, binary320_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin320>::value;
 };
 
 template <> struct genus_traits<bin384> : public unit_n<12, binary384_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin384>::value;
 };
 
 template <> struct genus_traits<bin512> : public unit_n<16, binary512_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<bin512>::value;
 };
 
@@ -470,9 +462,9 @@ template <> struct genus_traits<bin512> : public unit_n<16, binary512_t> {
 template <> struct genus_traits<text> : public unit_1<uint32_t, 0> {
   using value_type = string_view;
   using return_type = value_type;
-  static cxx11_constexpr_var unsigned loose_units = 0;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::stretchy;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr unsigned loose_units = 0;
+  static constexpr physique_kind physique = physique_kind::stretchy;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<text>::value;
 
   static cxx11_constexpr return_type empty() cxx11_noexcept {
@@ -501,9 +493,9 @@ template <> struct genus_traits<text> : public unit_1<uint32_t, 0> {
 template <> struct genus_traits<varbin> : public unit_1<uint32_t, 0> {
   using value_type = string_view;
   using return_type = value_type;
-  static cxx11_constexpr_var unsigned loose_units = 0;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::stretchy;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr unsigned loose_units = 0;
+  static constexpr physique_kind physique = physique_kind::stretchy;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<varbin>::value;
 
   static cxx11_constexpr return_type empty() cxx11_noexcept {
@@ -531,9 +523,9 @@ template <> struct genus_traits<varbin> : public unit_1<uint32_t, 0> {
 template <> struct genus_traits<nested> : public unit_1<uint32_t, 0> {
   using value_type = const details::stretchy_value_tuple *;
   using return_type = value_type;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::stretchy;
-  static cxx11_constexpr_var unsigned loose_units = 0;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr physique_kind physique = physique_kind::stretchy;
+  static constexpr unsigned loose_units = 0;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<nested>::value;
 
   static cxx11_constexpr return_type empty() cxx11_noexcept { return nullptr; }
@@ -558,9 +550,9 @@ template <> struct genus_traits<nested> : public unit_1<uint32_t, 0> {
 template <> struct genus_traits<property> : public unit_1<uint32_t, 0> {
   using value_type = property_pair;
   using return_type = value_type;
-  static cxx11_constexpr_var physique_kind physique = physique_kind::stretchy;
-  static cxx11_constexpr_var unsigned loose_units = 0;
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr physique_kind physique = physique_kind::stretchy;
+  static constexpr unsigned loose_units = 0;
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<property>::value;
 
   static cxx11_constexpr return_type empty() cxx11_noexcept {
@@ -590,17 +582,17 @@ template <> struct genus_traits<property> : public unit_1<uint32_t, 0> {
 //------------------------------------------------------------------------------
 
 template <> struct genus_traits<ip> : public unit_n<4, ip_address_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<ip>::value;
 };
 
 template <> struct genus_traits<ipnet> : public unit_n<5, ip_net_t> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<ip, ipnet>::value;
 };
 
 template <> struct genus_traits<mac> : public unit_2<mac_address_t, 0> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<mac>::value;
   static cxx14_constexpr bool is_empty(const return_type value) cxx11_noexcept {
     return value.raw64 == 0;
@@ -608,7 +600,7 @@ template <> struct genus_traits<mac> : public unit_2<mac_address_t, 0> {
 };
 
 template <> struct genus_traits<app_reserved_64> : public unit_2<int64_t, 0> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<app_reserved_64>::value;
   static cxx14_constexpr bool is_empty(const return_type value) cxx11_noexcept {
     return value == return_type(0);
@@ -616,7 +608,7 @@ template <> struct genus_traits<app_reserved_64> : public unit_2<int64_t, 0> {
 };
 
 template <> struct genus_traits<app_reserved_128> : public unit_n<4> {
-  static cxx11_constexpr_var details::genus_mask_t trivially_convertible_from =
+  static constexpr details::genus_mask_t trivially_convertible_from =
       utils::bitset_mask<app_reserved_128>::value;
 };
 } // namespace meta

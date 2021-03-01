@@ -622,5 +622,7 @@ public:
 inline iovec_thunk::iovec_thunk(const tuple_ro *ro)
     : iovec(ro, ro ? ro->size() : 0) {}
 
+FPTU_API std::ostream &operator<<(std::ostream &out, const tuple_ro *);
+
 } // namespace details
 } // namespace fptu

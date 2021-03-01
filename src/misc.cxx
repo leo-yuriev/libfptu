@@ -90,6 +90,17 @@ __cold std::string hexadecimal(const void *data, std::size_t bytes) {
   return result;
 }
 
+namespace details {
+
+std::ostream &operator<<(std::ostream &out, const tuple_ro *) {
+  return out << "tuple_ro{FIXME(" __FILE__ ":" STRINGIFY(__LINE__) ")}";
+}
+
+std::ostream &operator<<(std::ostream &out, const tuple_rw *) {
+  return out << "tuple_rw{FIXME(" __FILE__ ":" STRINGIFY(__LINE__) ")}";
+}
+
+} // namespace details
 } /* namespace fptu */
 
 //----------------------------------------------------------------------------

@@ -1529,6 +1529,8 @@ template <typename TOKEN> inline void tuple_rw::accessor_rw<TOKEN>::remove() {
   }
 }
 
+FPTU_API std::ostream &operator<<(std::ostream &out, const tuple_rw *);
+
 } // namespace details
 
 //------------------------------------------------------------------------------

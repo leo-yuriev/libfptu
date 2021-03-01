@@ -271,7 +271,7 @@ __hot const char *audit_tuple(const fptu::schema *const schema,
       return AUDIT_FAILURE("schema.preplaced > tuple.loose_payload");
     if (unlikely(ptrdiff_t(preplaced_bytes) > payload_bytes))
       return AUDIT_FAILURE("schema.preplaced > tuple.whole_payload");
-    for (const auto field_token : schema->tokens()) {
+    for (const auto &field_token : schema->tokens()) {
       if (!field_token.is_preplaced())
         break;
       const std::size_t preplaced_offset = field_token.preplaced_offset();
